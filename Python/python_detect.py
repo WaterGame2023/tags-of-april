@@ -1,7 +1,11 @@
-# Credit to Mikey (flamespinner on GitHub) for the original program
 import cv2
 import numpy as np
 import apriltag
+from networktables import NetworkTables
+
+#NetworkTables.initialize(server='10.25.31.2')
+#table.putXXX(name, value)
+#table.getXXX(name, default)
 
 LINE_LENGTH = 5
 CENTER_COLOR = (0, 255, 0)
@@ -28,6 +32,11 @@ def plotText(image, center, color, text):
 
 detector = apriltag.Detector()
 cam = cv2.VideoCapture(2)
+
+#Resolution and frame rate settings
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1280)
+cam.set(cv2.CAP_PROP_POS_FRAMES, 30)
 
 looping = True
 
