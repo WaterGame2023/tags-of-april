@@ -54,7 +54,7 @@ while looping:
             image = plotText(image, detect.center, CENTER_COLOR, detect.tag_id)
             for corner in detect.corners:
                 image = plotPoint(image, corner, CORNER_COLOR)
-    cv2.imshow('Result', cv2.flip(image, 1))
+    cv2.imshow('Result', image)
     
     key = cv2.waitKey(100)
     if key == 13:
