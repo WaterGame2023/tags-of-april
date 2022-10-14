@@ -1,7 +1,9 @@
+import csv
 import cv2
 import numpy as np
 import apriltag
 from networktables import NetworkTables
+from cscore import CameraServer
 
 #NetworkTables.initialize(server='10.25.31.2') #Uncomment when there is a NT server
 NT = NetworkTables.getTable("ceaseless-watcher")
@@ -9,6 +11,12 @@ NT = NetworkTables.getTable("ceaseless-watcher")
 LINE_LENGTH = 5
 CENTER_COLOR = (0, 255, 0)
 CORNER_COLOR = (255, 0, 255)
+
+CameraServer.enableLogging()
+stream = CameraServer.startAutomaticCapture()
+stream.setResolution(1080, 1920)
+sink = csv.getVideo()
+output = csv.putVideo("Vision", 1920, 1080)
 
 def plotPoint(image, center, color):
     center = (int(center[0]), int(center[1]))
@@ -62,6 +70,9 @@ while looping:
                 image = plotPoint(image, corner, CORNER_COLOR)
 
     cv2.imshow('Result', image) #Comment out when running in headless mode to not piss off python
+
+    time, input_img = cv2.imshow(image)
+    output.putFrame(image)
 
     key = cv2.waitKey(100)
     if key == 13:

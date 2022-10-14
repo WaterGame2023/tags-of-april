@@ -3,3 +3,4 @@ apriltag
 cmake
 pynetworktables
 pkgconfig
+robotpy-cscore
