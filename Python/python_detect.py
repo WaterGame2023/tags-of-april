@@ -11,6 +11,12 @@ LINE_LENGTH = 5
 CENTER_COLOR = (0, 255, 0)
 CORNER_COLOR = (255, 0, 255)
 
+#Camera Constants
+VIDEO_DEV = 2 #Video Device ID for the camera used. Probably 0 or 1 for Webcam, 2 or 3 for internal
+FRAME_HEIGHT = 480 #Height of the camera being used
+FRAME_WIDTH = 640 #Width of the camera being used
+FRAME_RATE = 30
+
 def cameraServer():
     camServe = CameraServer.getInstance()
     camServe.enableLogging()
@@ -37,12 +43,12 @@ def plotText(image, center, color, text):
                        1, color, 3)
 
 detector = apriltag.Detector()
-cam = cv2.VideoCapture(2) #ID of the camera being used
+cam = cv2.VideoCapture(VIDEO_DEV) #ID of the camera being used
 
 #Resolution and frame rate settings
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1280)
-cam.set(cv2.CAP_PROP_POS_FRAMES, 30)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, FRAME_WIDTH)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT)
+cam.set(cv2.CAP_PROP_POS_FRAMES, FRAME_RATE)
 
 looping = True
 
@@ -53,7 +59,7 @@ while looping:
     detections = detector.detect(grayimg)
     if not detections:
         NT.putString("tagfound", 0)
-        print("No Tag found")
+        print("No Tag found.  Looking for tags")
     else:
         for detect in detections:
             print("tag_id: %s, center: %s" % (detect.tag_id, detect.center))
