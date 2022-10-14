@@ -1,4 +1,3 @@
-import csv
 import cv2
 import numpy as np
 import apriltag
@@ -12,11 +11,11 @@ LINE_LENGTH = 5
 CENTER_COLOR = (0, 255, 0)
 CORNER_COLOR = (255, 0, 255)
 
-CameraServer.enableLogging()
-stream = CameraServer.startAutomaticCapture()
-stream.setResolution(1080, 1920)
-sink = csv.getVideo()
-output = csv.putVideo("Vision", 1920, 1080)
+def cameraServer():
+    camServe = CameraServer.getInstance()
+    camServe.enableLogging()
+    camServe.startAutomaticCapture()
+    camServe.waitForever()
 
 def plotPoint(image, center, color):
     center = (int(center[0]), int(center[1]))
@@ -38,7 +37,7 @@ def plotText(image, center, color, text):
                        1, color, 3)
 
 detector = apriltag.Detector()
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(2) #ID of the camera being used
 
 #Resolution and frame rate settings
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
@@ -69,14 +68,13 @@ while looping:
             for corner in detect.corners:
                 image = plotPoint(image, corner, CORNER_COLOR)
 
-    cv2.imshow('Result', image) #Comment out when running in headless mode to not piss off python
-
-    time, input_img = cv2.imshow(image)
-    output.putFrame(image)
+    cv2.imshow('Vid-Stream', image) #Comment out when running in headless mode to not piss off python   
 
     key = cv2.waitKey(100)
     if key == 13:
         looping = False
+
+    #cameraServer()
 
 cv2.destroyAllWindows()
 cv2.imwrite("final.png", image)
