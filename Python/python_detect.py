@@ -63,6 +63,7 @@ while looping:
     else:
         for detect in detections:
             print("tag_id: %s, center: %s" % (detect.tag_id, detect.center))
+            print("tag_id: %s, Tag-Center-X-value: %s, Tag-Center-Y-Value: %s" % (detect.tag_id, detect.x, detect.y)) #Experimental probably doesnt work yet
 
             image = plotPoint(image, detect.center, CENTER_COLOR)
             image = plotText(image, detect.center, CENTER_COLOR, detect.tag_id)
