@@ -26,7 +26,7 @@ def cameraServer():
 
 TAG_SIZE = .2 #Tag size in meters
 
-INFO = np.array([0.2, 1430, 1430, 320, 240])
+camInfo = np.array([1430, 1430, 320, 240])
 
 def plotPoint(image, center, color):
     center = (int(center[0]), int(center[1]))
@@ -89,21 +89,21 @@ while looping:
             SOLVEPNP_IPPE_SQUARE =7 # (enumeration not working: 
             # https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga357634492a94efe8858d0ce1509da869)
 
-            for d in detections:
+        for d in detections:
                 
-                    # print(d['lb-rb-rt-lt'])
-                    imagePoints = np.array([detect.corners])
-                    # print(imagePoints)
+                # print(d['lb-rb-rt-lt'])
+                imagePoints = np.array([detect.corners])
+                # print(imagePoints)
             
-                    # solvePnP docs: https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
-                    rvec, tvec = cv2.solvePnP(objectPoints, imagePoints, INFO, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
-                    # print("rvec:", rvec)
-                    print("tvec:", tvec)
-                    R = cv2.Rodrigues(rvec)
-                    # print("R:", R)
-                    yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
-                    roll = np.arcsin(-R[1][2])*180/np.pi
-                    pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
+                # solvePnP docs: https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
+                rvec, tvec = cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
+                # print("rvec:", rvec)
+                print("tvec:", tvec)
+                R = cv2.Rodrigues(rvec)
+                # print("R:", R)
+                yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
+                roll = np.arcsin(-R[1][2])*180/np.pi
+                pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
 
     cv2.imshow('Vid-Stream', image) #Comment out when running in headless mode to not piss off python   
 
