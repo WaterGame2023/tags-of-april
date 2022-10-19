@@ -13,7 +13,7 @@ CENTER_COLOR = (0, 255, 0)
 CORNER_COLOR = (255, 0, 255)
 
 #Camera Constants
-VIDEO_DEV = 0 #Video Device ID for the camera used. Probably 0 or 1 for Webcam, 2 or 3 for internal if on laptop and more than one device
+VIDEO_DEV = 2 #Video Device ID for the camera used. Probably 0 or 1 for Webcam, 2 or 3 for internal if on laptop and more than one device
 FRAME_HEIGHT = 480 #Height of the camera being used
 FRAME_WIDTH = 640 #Width of the camera being used
 FRAME_RATE = 30
@@ -26,7 +26,7 @@ def cameraServer():
 
 TAG_SIZE = .2 #Tag size in meters
 
-camInfo = np.array([1430, 1430, 320, 240])
+camInfo = np.matrix([ [1430, 0, 320], [ 0, 1430, 240], [ 0, 0, 1] ])
 
 def plotPoint(image, center, color):
     center = (int(center[0]), int(center[1]))
@@ -67,12 +67,12 @@ while looping:
         print("No Tag found.  Looking for tags")
     else:
         for detect in detections:
-            print("tag_id: %s, center: %s" % (detect.tag_id, detect.center))
-            #print("New Cycle", detect.corners)
+            #print("tag_id: %s, center: %s" % (detect.tag_id, detect.center))
+            #print("New Instance", detect.corners)
             #print("tag_id: %s, Tag-Center-X-value: %s, Tag-Center-Y-Value: %s" % (detect.tag_id, apriltag.x_translation(), apriltag.y_translation())) #Experimental probably doesnt work yet
 
-            if detect.tag_id == 69:
-                print("UwU 💖💖✨🥺,,👉👈💖💖✨🥺,,,,👉👈💖💖✨🥺,,👉👈✨✨✨,,👉👈💖💖✨🥺👉👈💖💖✨🥺,,,,👉👈💖💖,👉👈💖💖✨✨👉👈💖💖✨✨,👉👈✨✨✨,,👉👈💖💖✨,,,,👉👈💖💖✨,👉👈💖💖✨🥺,,,,👉👈💖💖✨,👉👈💖✨✨✨✨🥺,,,👉👈💖💖✨,👉👈💖💖✨🥺,👉👈")
+            #if detect.tag_id == 69:
+                #print("UwU 💖💖✨🥺,,👉👈💖💖✨🥺,,,,👉👈💖💖✨🥺,,👉👈✨✨✨,,👉👈💖💖✨🥺👉👈💖💖✨🥺,,,,👉👈💖💖,👉👈💖💖✨✨👉👈💖💖✨✨,👉👈✨✨✨,,👉👈💖💖✨,,,,👉👈💖💖✨,👉👈💖💖✨🥺,,,,👉👈💖💖✨,👉👈💖✨✨✨✨🥺,,,👉👈💖💖✨,👉👈💖💖✨🥺,👉👈")
 
             image = plotPoint(image, detect.center, CENTER_COLOR)
             image = plotText(image, detect.center, CENTER_COLOR, detect.tag_id)
@@ -84,8 +84,8 @@ while looping:
             for corner in detect.corners:
                 image = plotPoint(image, corner, CORNER_COLOR)
 
-            corner = TAG_SIZE/2
-            objectPoints= np.array([ [-corner,corner, 0], [ corner, corner, 0], [ corner, -corner, 0], [-corner, -corner, 0] ])
+            varName = TAG_SIZE/2
+            objectPoints= np.array([ [-varName,varName, 0], [ varName, varName, 0], [ varName, -varName, 0], [-varName, -varName, 0] ])
             SOLVEPNP_IPPE_SQUARE =7 # (enumeration not working: 
             # https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga357634492a94efe8858d0ce1509da869)
 
@@ -93,17 +93,19 @@ while looping:
                 
                 # print(d['lb-rb-rt-lt'])
                 imagePoints = np.array([detect.corners])
-                # print(imagePoints)
-            
+                #print(imagePoints)
                 # solvePnP docs: https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
-                rvec, tvec = cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
-                # print("rvec:", rvec)
-                print("tvec:", tvec)
-                R = cv2.Rodrigues(rvec)
-                # print("R:", R)
-                yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
-                roll = np.arcsin(-R[1][2])*180/np.pi
-                pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
+                #tvec = cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
+                #print("rvec:", rvec)
+                print("X-Value:", detect.center[0], "\n")
+                print("Y-Value:", detect.center[1], "\n")
+                #print("tvec:", tvec)
+                #R = cv2.Rodrigues(rvec)
+                #print("R:", R)
+                #yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
+                #roll = np.arcsin(-R[1][2])*180/np.pi
+                #pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
+                #cv2.drawFrameAxes(image, camInfo, rvec, tvec, 0.5, LINE_LENGTH)
 
     cv2.imshow('Vid-Stream', image) #Comment out when running in headless mode to not piss off python   
 
