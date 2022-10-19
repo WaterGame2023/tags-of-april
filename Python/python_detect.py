@@ -12,7 +12,7 @@ CENTER_COLOR = (0, 255, 0)
 CORNER_COLOR = (255, 0, 255)
 
 #Camera Constants
-VIDEO_DEV = 0 #Video Device ID for the camera used. Probably 0 or 1 for Webcam, 2 or 3 for internal
+VIDEO_DEV = 0 #Video Device ID for the camera used. Probably 0 or 1 for Webcam, 2 or 3 for internal if on laptop and more than one device
 FRAME_HEIGHT = 480 #Height of the camera being used
 FRAME_WIDTH = 640 #Width of the camera being used
 FRAME_RATE = 30
