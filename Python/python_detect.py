@@ -20,7 +20,7 @@ FRAME_RATE = 30
 def cameraServer():
     camServe = CameraServer.getInstance()
     camServe.enableLogging()
-    camServe.startAutomaticCapture()
+    camServe.startAutomaticCapture(image) #this might work
     camServe.waitForever()
 
 def plotPoint(image, center, color):
