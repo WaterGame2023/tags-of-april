@@ -67,9 +67,11 @@ while looping:
         print("No Tag found.  Looking for tags")
     else:
         for detect in detections:
-            #print("tag_id: %s, center: %s" % (detect.tag_id, detect.center))
-            #print("New Instance", detect.corners)
+            print("\ntag_id: %s, center-yx: %s" % (detect.tag_id, detect.center))
+            print("tag-id: %s center-x: %s \ntag-id: %s center-y: %s" % (detect.tag_id, detect.center[1], detect.tag_id, detect.center[0]))
             #print("tag_id: %s, Tag-Center-X-value: %s, Tag-Center-Y-Value: %s" % (detect.tag_id, apriltag.x_translation(), apriltag.y_translation())) #Experimental probably doesnt work yet
+            #print("Y-Value:", detect.center[1], "\n")
+            #print("X-Value:", detect.center[0])
 
             #if detect.tag_id == 69:
                 #print("UwU 💖💖✨🥺,,👉👈💖💖✨🥺,,,,👉👈💖💖✨🥺,,👉👈✨✨✨,,👉👈💖💖✨🥺👉👈💖💖✨🥺,,,,👉👈💖💖,👉👈💖💖✨✨👉👈💖💖✨✨,👉👈✨✨✨,,👉👈💖💖✨,,,,👉👈💖💖✨,👉👈💖💖✨🥺,,,,👉👈💖💖✨,👉👈💖✨✨✨✨🥺,,,👉👈💖💖✨,👉👈💖💖✨🥺,👉👈")
@@ -97,8 +99,6 @@ while looping:
                 # solvePnP docs: https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
                 #tvec = cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
                 #print("rvec:", rvec)
-                print("X-Value:", detect.center[0], "\n")
-                print("Y-Value:", detect.center[1], "\n")
                 #print("tvec:", tvec)
                 #R = cv2.Rodrigues(rvec)
                 #print("R:", R)
