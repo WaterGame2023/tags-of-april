@@ -1,0 +1,10 @@
+/home/alaric/Desktop/tags-of-april/CMakeFiles/apriltag.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/apriltag_python.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/apriltag_demo.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/opencv_demo.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/edit_cache.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/rebuild_cache.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/list_install_components.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/install.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/install/local.dir
+/home/alaric/Desktop/tags-of-april/CMakeFiles/install/strip.dir
