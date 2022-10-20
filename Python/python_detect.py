@@ -67,14 +67,26 @@ while looping:
         print("No Tag found.  Looking for tags")
     else:
         for detect in detections:
-            print("\ntag_id: %s, center-yx: %s" % (detect.tag_id, detect.center))
-            print("tag-id: %s center-x: %s \ntag-id: %s center-y: %s" % (detect.tag_id, detect.center[1], detect.tag_id, detect.center[0]))
+            #print("\ntag_id: %s, center-yx: %s" % (detect.tag_id, detect.center))
+            #print("tag-id: %s center-x: %s \ntag-id: %s center-y: %s" % (detect.tag_id, detect.center[1], detect.tag_id, detect.center[0]))
             #print("tag_id: %s, Tag-Center-X-value: %s, Tag-Center-Y-Value: %s" % (detect.tag_id, apriltag.x_translation(), apriltag.y_translation())) #Experimental probably doesnt work yet
             #print("Y-Value:", detect.center[1], "\n")
             #print("X-Value:", detect.center[0])
 
             #if detect.tag_id == 69:
                 #print("UwU 💖💖✨🥺,,👉👈💖💖✨🥺,,,,👉👈💖💖✨🥺,,👉👈✨✨✨,,👉👈💖💖✨🥺👉👈💖💖✨🥺,,,,👉👈💖💖,👉👈💖💖✨✨👉👈💖💖✨✨,👉👈✨✨✨,,👉👈💖💖✨,,,,👉👈💖💖✨,👉👈💖💖✨🥺,,,,👉👈💖💖✨,👉👈💖✨✨✨✨🥺,,,👉👈💖💖✨,👉👈💖💖✨🥺,👉👈")
+
+            centerX = detect.center[0]
+            centerY = detect.center[1]
+
+            centerOriginX = (centerX - (FRAME_WIDTH / 2))
+            centerOriginY = ((FRAME_HEIGHT / 2) - centerY)
+
+            print("\nX-Axis:", centerOriginX, "\n") #Debug
+            print("Y-Axis:", centerOriginY, "\n") #Debug
+
+            #print("\ntag-id:", detect.tag_id, "center-x:", centerX) #Debug
+            #print("tag-id:", detect.tag_id, "center-y:", centerY) #Debug
 
             image = plotPoint(image, detect.center, CENTER_COLOR)
             image = plotText(image, detect.center, CENTER_COLOR, detect.tag_id)
