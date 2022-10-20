@@ -110,14 +110,31 @@ while looping:
             # solvePnP docs: https://docs.opencv.org/master/d9/d0c/group__calib3d.html#ga549c2075fac14829ff4a58bc931c033d
             retval, tvec, rvec = cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE)
             #print(cv2.solvePnP(objectPoints, imagePoints, camInfo, None, useExtrinsicGuess=False, flags=SOLVEPNP_IPPE_SQUARE))
-            print("rvec:", rvec)
-            print("tvec:", tvec)
-            R = cv2.Rodrigues(rvec)
-            print("R:", R)
-            yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
-            roll = np.arcsin(-R[1][2])*180/np.pi
-            pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
-            cv2.drawFrameAxes(image, camInfo, rvec, tvec, 0.5, LINE_LENGTH)
+            #print("rvec:", rvec)
+            #print("tvec:", tvec)
+            #R = cv2.Rodrigues(rvec)
+            #print("R:", R)
+            #yaw = np.arctan2(R[0,2],R[2,2])*180/np.pi # 180//np.pi gets to integers?
+            #roll = np.arcsin(-R[1][2])*180/np.pi
+            #pitch = np.arctan2(R[1,0],R[1,1])*180/np.pi
+
+            rvec_matrix = cv2.Rodrigues(rvec)[0]
+            proj_matrix = np.hstack((rvec_matrix, tvec))
+            eulerAngles = -cv2.decomposeProjectionMatrix(proj_matrix)[6] 
+
+            yaw_degrees   = eulerAngles[1]
+            pitch_degrees = eulerAngles[0]
+            roll_degrees  = eulerAngles[2]
+
+            # if( yaw_degrees < 0 ): yaw_degrees += 360.0
+            # if( pitch_degrees < 0 ): pitch_degrees += 360.0
+            # if( roll_degrees < 0 ): roll_degrees += 360.0
+
+            print("\n", yaw_degrees)
+            print(pitch_degrees)
+            print(roll_degrees)
+
+            #cv2.drawFrameAxes(image, camInfo, rvec, tvec, LINE_LENGTH, 5)
 
     cv2.imshow('Vid-Stream', image) #Comment out when running in headless mode to not piss off python
 
