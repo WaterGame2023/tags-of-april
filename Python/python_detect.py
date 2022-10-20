@@ -69,9 +69,6 @@ while looping:
         for detect in detections:
             #print("\ntag_id: %s, center-yx: %s" % (detect.tag_id, detect.center))
             #print("tag-id: %s center-x: %s \ntag-id: %s center-y: %s" % (detect.tag_id, detect.center[1], detect.tag_id, detect.center[0]))
-            #print("tag_id: %s, Tag-Center-X-value: %s, Tag-Center-Y-Value: %s" % (detect.tag_id, apriltag.x_translation(), apriltag.y_translation())) #Experimental probably doesnt work yet
-            #print("Y-Value:", detect.center[1], "\n")
-            #print("X-Value:", detect.center[0])
 
             #if detect.tag_id == 69:
                 #print("UwU 💖💖✨🥺,,👉👈💖💖✨🥺,,,,👉👈💖💖✨🥺,,👉👈✨✨✨,,👉👈💖💖✨🥺👉👈💖💖✨🥺,,,,👉👈💖💖,👉👈💖💖✨✨👉👈💖💖✨✨,👉👈✨✨✨,,👉👈💖💖✨,,,,👉👈💖💖✨,👉👈💖💖✨🥺,,,,👉👈💖💖✨,👉👈💖✨✨✨✨🥺,,,👉👈💖💖✨,👉👈💖💖✨🥺,👉👈")
@@ -82,8 +79,8 @@ while looping:
             centerOriginX = (centerX - (FRAME_WIDTH / 2))
             centerOriginY = ((FRAME_HEIGHT / 2) - centerY)
 
-            print("\nX-Axis:", centerOriginX, "\n") #Debug
-            print("Y-Axis:", centerOriginY, "\n") #Debug
+            #print("\nX-Axis:", centerOriginX, "\n") #Debug
+            #print("Y-Axis:", centerOriginY, "\n") #Debug
 
             #print("\ntag-id:", detect.tag_id, "center-x:", centerX) #Debug
             #print("tag-id:", detect.tag_id, "center-y:", centerY) #Debug
@@ -91,7 +88,9 @@ while looping:
             image = plotPoint(image, detect.center, CENTER_COLOR)
             image = plotText(image, detect.center, CENTER_COLOR, detect.tag_id)
 
-            NT.putString("tag_center", detect.center)
+            NT.putString("tag_center", detect.center) #Uses default openCV Coordinate system w/ origin top-left
+            NT.putString("tag_x", centerOriginX) #x-axis value of tag
+            NT.putString("tag_y", centerOriginY) #y-axis value of tag
             NT.putString("tag_id", detect.tag_id)
             NT.putString("tagfound", 1)
 
@@ -125,7 +124,7 @@ while looping:
     if key == 13:
         looping = False
 
-    #cameraServer()
+    #cameraServer() #Uncomment if you want things to break
 
 cv2.destroyAllWindows()
 cv2.imwrite("final.png", image)
